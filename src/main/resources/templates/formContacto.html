@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Registrar Contacto</title>
+    <!-- Agregar la hoja de estilos de Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <!-- Agregar la hoja de estilos de FontAwesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+          crossorigin="anonymous"/>
+    <style>
+        body, label, input, .btn {
+            font-family: 'FontAwesome', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #fab2ff 10%, #1904e5 100%);
+            background-attachment: fixed; /* Para mantener el fondo fijo mientras se desplaza */
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="text-center">Registrar Contacto</h1>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/nuevoContacto}" method="post" th:object="${contacto}" class="needs-validation"
+                          novalidate>
+                        <div class="form-group">
+                            <label for="nombre"><i class="fa fa-user"></i> Nombre:</label>
+                            <input type="text" id="nombre" name="nombre" th:field="*{nombre}" class="form-control"
+                                   required/>
+                            <div th:errors="*{nombre}" class="text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="fa fa-envelope"></i> Email:</label>
+                            <input type="text" id="email" name="email" th:field="*{email}" class="form-control"
+                                   required/>
+                            <div th:errors="*{email}" class="text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="celular"><i class="fa fa-phone"></i> Celular:</label>
+                            <input type="text" id="celular" name="celular" th:field="*{celular}" class="form-control"
+                                   required/>
+                            <div th:errors="*{celular}" class="text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaNacimiento"><i class="fa fa-calendar"></i> Fecha de Nacimiento:</label>
+                            <input type="date" id="fechaNacimiento" name="fechaNacimiento"
+                                   th:field="*{fechaNacimiento}"
+                                   class="form-control" required/>
+                            <div th:errors="*{fechaNacimiento}" class="text-danger"></div>
+                        </div>
+                        <!-- Agregado para el campo id -->
+                        <input type="hidden" th:field="*{id}" />
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                        <a th:href="@{/contactos}" class="btn btn-secondary"><i class="fa fa-times"></i> Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Agrega los scripts de Bootstrap y otros si es necesario -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+.navbar-nav.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+}
+
+body{
+    background-image: url(https://images.unsplash.com/photo-1497515114629-f71d768fd07c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29mZmVlJTIwY3VwfGVufDB8fDB8fHww&w=1500&q=80);
+}
+
+.custom-link{
+    color: rgb(7, 6, 6);
+  text-decoration: none; 
+  border: 1px solid black; 
+  padding: 5px 10px; 
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-link:hover {
+    background-color: #000; 
+    color: #fff; 
+    cursor: pointer; 
+  }
+
+.navbar-nav .nav-link:hover{
+    background-color: #f0f0f0; 
+    color: #333;
+    transition: background-color 0.3s, color 0.3s; 
+    border-radius: 25%;
+    font-family: 'Croissant One', cursive;
+}
+
+.navbar-nav .nav-link{
+    font-family: 'Croissant One', cursive;
+    border-radius: 25%;
+}

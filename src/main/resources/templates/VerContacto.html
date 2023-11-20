@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detalles del Contacto</title>
+    <!-- Agregar la hoja de estilos de Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <!-- Agregar la fuente de FontAwesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <!-- Estilo de fondo con gradiente -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #fab2ff 10%, #1904e5 100%);
+            background-attachment: fixed; /* Para mantener el fondo fijo mientras se desplaza */
+            padding: 20px;
+        }
+
+        .card {
+            width: 50%;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            text-align: center;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo para el formulario de solo lectura */
+        .form-readonly {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="card-body">
+        <h2>Detalles del Contacto</h2>
+        <div class="form-readonly">
+            <div><strong>Nombre:</strong> <span th:text="${contacto.nombre}"></span></div>
+            <div><strong>Email:</strong> <span th:text="${contacto.email}"></span></div>
+            <div><strong>Celular:</strong> <span th:text="${contacto.celular}"></span></div>
+            <div><strong>Fecha de Nacimiento:</strong> <span th:text="${#temporals.format(contacto.fechaNacimiento, 'dd/MM/yyyy')}"></span></div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h2>Facturas</h2>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>ID Factura</th>
+                <th>Fecha de Emisión</th>
+                <th>Importe</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iterar sobre la lista de facturas -->
+            <tr th:each="factura : ${contacto.facturas}">
+                <td th:text="${factura.id}"></td>
+                <td th:text="${#dates.format(factura.fechaEmision, 'dd/MM/yyyy')}"></td>
+                <td th:text="${factura.importe}"></td>
+                <td>
+                    <a class="btn btn-primary" th:href="@{'/verFactura/' + ${factura.id}}">Ver Factura</a>
+                    <form style="display: inline;" th:action="@{'/borrarFactura/' + ${factura.id}}" method="post" onsubmit="return confirm('¿Estás seguro de borrar esta factura?')">
+                        <button class="btn btn-danger" type="submit">Borrar Factura</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
+
+

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Producto</title>
+</head>
+<body>
+
+<h1>Crear Nuevo Producto</h1>
+
+<form th:object="${productoDto}" th:action="@{/productos/crear}" method="post" enctype="multipart/form-data">
+    <label>Nombre: <input type="text" th:field="*{nombre}" /></label><br/>
+    <label>Precio: <input type="text" th:field="*{precio}" /></label><br/>
+    <label>Imagen: <input type="file" name="imagenFile" /></label><br/> <!-- Campo para cargar la imagen -->
+    <input type="submit" value="Guardar"/>
+</form>
+
+<a th:href="@{/productos/listar}">Volver al listado</a>
+
+</body>
+</html>

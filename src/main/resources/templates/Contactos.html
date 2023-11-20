@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Contactos</title>
+    <!-- Agregar la hoja de estilos de Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <!-- Agregar la fuente de FontAwesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <!-- Estilo de fondo con gradiente -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #fab2ff 10%, #1904e5 100%);
+            background-attachment: fixed; /* Para mantener el fondo fijo mientras se desplaza */
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-pagination {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+
+        .custom-pagination li {
+            margin: 0 5px;
+        }
+
+        .btn-right {
+            text-align: right;
+            margin-top: 15px;
+        }
+
+        .icon-column {
+            text-align: center;
+        }
+
+        .icon-column i {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center">Lista de Contactos</h1>
+    <div class="btn-right">
+        <a th:href="@{/nuevoContacto}" class="btn btn-primary">Añadir Contacto</a>
+    </div>
+    <table class="table table-hover mt-3">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Celular</th>
+            <th>Fecha Nacimiento</th>
+            <th>Fecha Registro</th>
+            <th class="icon-column">Acciones</th>
+            <th class="icon-column">Facturación</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- En la sección de mostrar contactos -->
+        <tr th:each="contacto : ${contactosPage.content}">
+            <td th:text="${contacto.nombre}"></td>
+            <td th:text="${contacto.email}"></td>
+            <td th:text="${contacto.celular}"></td>
+            <td th:text="${#temporals.format(contacto.fechaNacimiento, 'dd/MM/yyyy')}"></td>
+            <td th:text="${contacto.fechaRegistro}"></td>
+            <td class="icon-column">
+                <a th:href="@{/editarContacto/{id}(id=${contacto.id})}">
+                    <i class="fa fa-pencil-square text-warning" title="Editar Contacto"></i>
+                </a>
+                <form th:action="@{/borrarContacto/{id}(id=${contacto.id})}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este contacto?')">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa fa-trash text'danger" title="Borrar Contacto"></i>
+                    </button>
+                </form>
+                <a th:href="@{/verContacto/{id}(id=${contacto.id})}">
+                    <i class="fa fa-eye" title="Datos"></i>
+                </a>
+            </td>
+            <td class="icon-column">
+                <!-- aqui debe ir un button que diga crear factura y dispare ese controlador osea me lleve a el form para crear la factura -->
+                <a th:href="@{/facturas/crear/{id}(id=${contacto.id})}">
+                    <button class="btn btn-success" title="Crear Factura">Crear Factura</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Paginación de Bootstrap -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li th:if="${!contactosPage.first}" class="page-item">
+                <a class="page-link" th:href="@{/contactos(page=0)}" aria-label="Primero">
+                    <span aria-hidden="true"><i class="fa fa-angle-double-left"></i></span>
+                </a>
+            </li>
+            <li th:if="${!contactosPage.first}" class="page-item">
+                <a class="page-link" th:href="@{/contactos(page=${contactosPage.number - 1})}" aria-label="Anterior">
+                    <span aria-hidden="true"><i class="fa fa-angle-left"></i></span>
+                </a>
+            </li>
+            <li th:if="${!contactosPage.last}" class="page-item">
+                <a class="page-link" th:href="@{/contactos(page=${contactosPage.number + 1})}" aria-label="Siguiente">
+                    <span aria-hidden="true"><i class="fa fa-angle-right"></i></span>
+                </a>
+            </li>
+            <li th:if="${!contactosPage.last}" class="page-item">
+                <a class="page-link" th:href="@{/contactos(page=${contactosPage.totalPages - 1})}" aria-label="Último">
+                    <span aria-hidden="true"><i class="fa fa-angle-double-right"></i></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+
+</html>

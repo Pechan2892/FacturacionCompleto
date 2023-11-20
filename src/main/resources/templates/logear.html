@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" xmlns />
+    <title>Login Page in HTML with CSS Code Example</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans"
+      rel="stylesheet"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../static/style.css" th:href="@{/style.css}" />
+  </head>
+
+  <body>
+	<div class="container" >
+
+
+	</div>
+
+
+
+    <!-- partial:index.partial.html -->
+    <div class="box-form">
+      <div class="left">
+        <div class="overlay">
+          <h1 style="text-align: center">Coffe Time</h1>
+          <br /><br />
+          <p style="text-align: center">
+            En el rincón acogedor de nuestra cafetería
+          </p>
+          <p style="text-align: center">
+            cada taza de café se convierte en una pausa para el alma
+          </p>
+		  <br>
+		  <div th:if="${param.exito}">
+			<div class="mensaje-box" id="color-change">
+				Registro Exitoso ✔✔✔
+			</div>
+		  </div>
+		  
+        </div>
+      </div>
+
+      <div class="right">
+        <h5>Login</h5>
+        <p>
+          Don't have an account? <a th:href="@{/registro}">Creat Your Account</a> it takes
+          less than a minute
+        </p>
+
+        <form method="post" th:action="@{/logear}" th:object="${usuario}">
+          <div class="inputs">
+            <input id="email" type="email" placeholder="e-mail" th:field="*{email}"/>
+            <br />
+            <small class="text-danger" th:if="${mensajeError}" th:text="${mensajeError}" style="color: red;"></small>
+            <br/>
+            <input id="password" type="password" placeholder="password" th:field="*{password}"/>
+            <br/>
+            <small class="text-danger" th:if="${mensajeErrorP}" th:text="${mensajeErrorP}" style="color: red;"></small>
+          </div>
+         
+          <br /><br /><br/>
+          <button  type="submit" class="btn btn-success btn-block">Login</button>
+        </form>
+      </div>
+    </div>
+    <!-- partial -->
+	<script>
+        // Array de colores que se utilizarán
+        const colores = [ "#3b28cc","#2667ff"];
+        let indice = 0;
+
+        // Función para cambiar el color del mensaje
+        function cambiarColor() {
+            const mensaje = document.getElementById("color-change");
+            mensaje.style.color = colores[indice];
+            indice = (indice + 1) % colores.length;
+        }
+
+        // Cambiar el color cada segundo
+        setInterval(cambiarColor, 500);
+    </script>
+  </body>
+</html>
