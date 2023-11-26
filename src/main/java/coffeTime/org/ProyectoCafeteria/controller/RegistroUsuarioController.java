@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.IOException;
+
 @Controller
 @RequestMapping("/registro")
 public class RegistroUsuarioController {
@@ -29,7 +31,7 @@ public class RegistroUsuarioController {
     }
 
     @PostMapping
-    public String RegistrarNuevoUsuario(@Validated @ModelAttribute ("usuario") UsuarioRegistroDto registroDto, BindingResult bindingResult, Model model){
+    public String RegistrarNuevoUsuario(@Validated @ModelAttribute ("usuario") UsuarioRegistroDto registroDto, BindingResult bindingResult, Model model) throws IOException {
         if(bindingResult.hasErrors()){
             return "registro";
         }

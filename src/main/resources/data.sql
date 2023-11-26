@@ -1,9 +1,10 @@
 
--- Crear usuarios de ejemplo
+-- Crear usuarios de ejemplo con contraseñas encriptadas//contraseña para todos es contraseña1
 INSERT INTO usuarios (nombre, apellido, email, password) VALUES
-('Usuario1', 'Apellido1', 'usuario1@example.com', 'contraseña1'),
-('Usuario2', 'Apellido2', 'usuario2@example.com', 'contraseña2'),
-('Usuario3', 'Apellido3', 'usuario3@example.com', 'contraseña3');
+('Usuario1', 'Apellido1', 'usuario1@example.com', '$2a$12$YfVnXINmLBbR6Ugrflp.qecSbefMv7Ibsr0n.eN19uRBQAkUKzQ9u'),
+('Usuario2', 'Apellido2', 'usuario2@example.com', '$2a$12$YfVnXINmLBbR6Ugrflp.qecSbefMv7Ibsr0n.eN19uRBQAkUKzQ9u'),
+('Usuario3', 'Apellido3', 'usuario3@example.com', '$2a$12$YfVnXINmLBbR6Ugrflp.qecSbefMv7Ibsr0n.eN19uRBQAkUKzQ9u');
+
 
 -- Asignar roles a los usuarios
 INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES
@@ -49,5 +50,8 @@ INSERT INTO contactos (nombre, email, celular, fecha_nacimiento, usuario_id) VAL
 INSERT INTO productos (create_at, precio, nombre) VALUES
 ('2023-11-14', 15.20, 'Cafe Juan Valdez'),
 ('2022-12-16', 30.50, 'Bolsa Cafe Canela'),
-('2023-05-13', 10.25, 'Bolsa Cafe Puro Colombiano');
+('2023-05-13', 10.25, 'Bolsa Cafe Puro Colombiano'),
+('2023-05-13', 5.25, 'Bolsa Cafe Aleman'),
+('2023-05-15', 3.25, 'Bolsa Cafe Nestle'),
+('2023-05-15', 7.25, 'Bolsa Cafe Salvadoreño');
 

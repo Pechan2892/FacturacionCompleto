@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Descripción de la página">
     <link rel="stylesheet" href="../static/styleHome.css" th:href="@{/styleHome.css}" />
@@ -39,8 +39,10 @@
             </ul>
         </div>
         <a th:href="@{/logoutUser}" class="custom-link">Cerrar sesion</a>
-        <span th:text="${User.email}" style="margin-right: 25px;"></span>
+        <!-- Redimensionar la imagen del usuario -->
+        <img th:if="${User.imagen}" th:src="@{'/imagen/' + ${User.id}}" alt="Imagen del Usuario" class="usuario-imagen" style="width: 2rem; height: 2rem;" />
     </div>
 </nav>
 </body>
 </html>
+

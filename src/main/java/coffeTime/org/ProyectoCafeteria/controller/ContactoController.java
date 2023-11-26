@@ -1,7 +1,9 @@
 package coffeTime.org.ProyectoCafeteria.controller;
 import coffeTime.org.ProyectoCafeteria.dao.entity.Contacto;
+import coffeTime.org.ProyectoCafeteria.dao.entity.Factura;
 import coffeTime.org.ProyectoCafeteria.dao.entity.Usuario;
 import coffeTime.org.ProyectoCafeteria.service.implementation.ContactoServiceImpl;
+import coffeTime.org.ProyectoCafeteria.service.implementation.FacturaServiceImpl;
 import coffeTime.org.ProyectoCafeteria.service.implementation.UsuarioServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +25,9 @@ public class ContactoController {
 
     @Autowired
     private UsuarioServiceImpl serviciosUsuario;
+
+    @Autowired
+    private FacturaServiceImpl facturaService;
     @Autowired
     private ContactoServiceImpl serviciosContactos;
 
@@ -137,6 +142,16 @@ public class ContactoController {
         Contacto contacto=serviciosContactos.obtenerContactoPorId(id);
         model.addAttribute("contacto",contacto);
         return "verContacto";
+    }
+
+    @GetMapping("verContacto/verFactura/{id}")
+    public String verFactura(@PathVariable Long id,Model model){
+        Factura factura=facturaService.findFacturaById(id);
+        if(factura==null){
+            return "redirect:/contactos";
+        }
+        model.addAttribute(factura);
+        return "verFactura";
     }
 
 }

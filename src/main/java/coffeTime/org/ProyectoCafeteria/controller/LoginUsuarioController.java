@@ -6,6 +6,7 @@ import coffeTime.org.ProyectoCafeteria.service.Interface.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,18 +25,23 @@ public class LoginUsuarioController {
         return "logear";
     }
     @PostMapping
-    public String iniciarSesionHome(@ModelAttribute("usuario") UsuarioRegistroDto registroDto, Model model, HttpServletRequest request){
+    public String iniciarSesionHome(@ModelAttribute("usuario") UsuarioRegistroDto registroDto, Model model, HttpServletRequest request) {
 
-        Usuario ExisteUsuario=servicioUsuario.BuscarPorEmail(registroDto.getEmail());
-        if(ExisteUsuario==null){
-            model.addAttribute("mensajeError", "Este usuario no existe estas registrado?");
+        Usuario existeUsuario = servicioUsuario.BuscarPorEmail(registroDto.getEmail());
+        if (existeUsuario == null) {
+            model.addAttribute("mensajeError", "Este usuario no existe. ¿Estás registrado?");
             return "logear";
-        } else if (!ExisteUsuario.getPassword().equals(registroDto.getPassword())) {
-            model.addAttribute("mensajeErrorP","La contraseña es invalida !!");
-            return "logear";
+        } else {
+            // Utiliza el BCryptPasswordEncoder para verificar la contraseña
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (passwordEncoder.matches(registroDto.getPassword(), existeUsuario.getPassword())) {
+                HttpSession session = request.getSession();
+                session.setAttribute("usuario", existeUsuario);
+                return "redirect:/home";
+            } else {
+                model.addAttribute("mensajeErrorP", "La contraseña es inválida.");
+                return "logear";
+            }
         }
-        HttpSession session=request.getSession();
-        session.setAttribute("usuario",ExisteUsuario);
-        return "redirect:/home";
     }
 }

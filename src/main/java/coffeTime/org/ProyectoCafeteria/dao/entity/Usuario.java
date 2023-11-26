@@ -1,6 +1,8 @@
 package coffeTime.org.ProyectoCafeteria.dao.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +20,9 @@ public class Usuario {
     private String apellido;
     private String email;
     private String password;
+
+    @Transient
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contacto> contactos = new ArrayList<>();
 
@@ -29,6 +34,10 @@ public class Usuario {
 
     )
     private Collection<Rol> roles;
+
+    @Lob
+    @Column(name = "imagen", columnDefinition="LONGBLOB")
+    private byte[] imagen;
 
     public Long getId() {
         return id;
@@ -67,7 +76,7 @@ public class Usuario {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = passwordEncoder.encode(password);
     }
 
     public Collection<Rol> getRoles() {
@@ -84,6 +93,14 @@ public class Usuario {
 
     public void setContactos(List<Contacto> contactos) {
         this.contactos = contactos;
+    }
+
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
     }
 
     public Usuario(Long id, String nombre, String apellido, String email, String password, Collection<Rol> roles) {

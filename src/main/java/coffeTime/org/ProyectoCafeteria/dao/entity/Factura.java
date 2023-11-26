@@ -16,7 +16,6 @@ public class Factura implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private String descripcion;
 
     private String observacion;
@@ -27,6 +26,8 @@ public class Factura implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Contacto contacto;
+
+    private Double total;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "factura_id")
@@ -49,8 +50,8 @@ public class Factura implements Serializable {
         this.observacion = observacion;
         this.createAt = createAt;
         this.contacto = contacto;
+        this.total=0.00;
     }
-
 
     public Long getId() {
         return id;
@@ -100,8 +101,13 @@ public class Factura implements Serializable {
         this.items = items;
     }
 
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
     public void addItemFactura(ItemFactura item){
         this.items.add(item);
+        this.total=getTotal();
     }
 
     public Double getTotal(){

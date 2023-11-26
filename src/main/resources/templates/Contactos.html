@@ -48,7 +48,31 @@
 </head>
 
 <body>
-
+<nav class="navbar navbar-expand-lg" style="background-color: rgba(255, 251, 251, 0.719);">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="https://www.freepnglogos.com/uploads/coffee-logo-png/coffee-logo-design-creative-idea-logo-elements-2.png" alt="Coffe img" style="width: 2rem; height: 2rem;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#" style="margin-right: 25px;" th:href="@{/home}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  th:href="@{/contactos}" aria-disabled="true" style="margin-right: 25px;">Contactos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/productos/listar}" aria-disabled="true" style="margin-right: 25px;">Productos</a>
+                </li>
+            </ul>
+        </div>
+        <a th:href="@{/logoutUser}" class="custom-link">Cerrar sesion</a>
+        <img th:if="${usuario.imagen}" th:src="@{'/imagen/' + ${usuario.id}}" alt="Imagen del Usuario" class="usuario-imagen" style="width: 2rem; height: 2rem;" />
+    </div>
+</nav>
 <div class="container mt-5">
     <h1 class="text-center">Lista de Contactos</h1>
     <div class="btn-right">

@@ -2,6 +2,7 @@ package coffeTime.org.ProyectoCafeteria.dao.Dto;
 
 
 import jakarta.validation.constraints.*;
+import org.springframework.web.multipart.MultipartFile;
 
 public class UsuarioRegistroDto {
     private Long id;
@@ -23,6 +24,8 @@ public class UsuarioRegistroDto {
     @NotBlank(message = "El contraseña no debe ser espacio")
     @Size(min = 4,max = 15)
     private String password;
+
+    private MultipartFile imagenFile;
 
     public Long getId() {
         return id;
@@ -62,6 +65,14 @@ public class UsuarioRegistroDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public MultipartFile getImagenFile() {
+        return imagenFile;
+    }
+
+    public void setImagenFile(MultipartFile imagenFile) {
+        this.imagenFile = imagenFile;
     }
 
     public UsuarioRegistroDto(Long id, String nombre, String apellido, String email, String password) {

@@ -79,15 +79,16 @@
             <tbody>
             <!-- Iterar sobre la lista de facturas -->
             <tr th:each="factura : ${contacto.facturas}">
-                <td th:text="${factura.id}"></td>
-                <td th:text="${#dates.format(factura.fechaEmision, 'dd/MM/yyyy')}"></td>
-                <td th:text="${factura.importe}"></td>
-                <td>
-                    <a class="btn btn-primary" th:href="@{'/verFactura/' + ${factura.id}}">Ver Factura</a>
-                    <form style="display: inline;" th:action="@{'/borrarFactura/' + ${factura.id}}" method="post" onsubmit="return confirm('¿Estás seguro de borrar esta factura?')">
+                <form style="display: inline;" th:action="@{'/facturas/borrarFactura/' + ${factura.id}}" method="post" onsubmit="return confirm('¿Estás seguro de borrar esta factura?')">
+                    <td th:text="${factura.id}"></td>
+                    <td th:text="${#dates.format(factura.createAt, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${factura.total}"></td>
+                    <input type="hidden" name="contactoId" th:value="${contacto.id}" />
+                    <td>
+                        <a class="btn btn-primary" th:href="@{'/verContacto/verFactura/' + ${factura.id}}">Ver Factura</a>
                         <button class="btn btn-danger" type="submit">Borrar Factura</button>
-                    </form>
-                </td>
+                    </td>
+                </form>
             </tr>
             </tbody>
         </table>

@@ -17,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/facturas")
@@ -32,7 +34,7 @@ public class FacturaController {
     private ProductosServiceImpl productoService;
 
     private List<ItemFactura> listaItemsFactura = new ArrayList<>();
-    private Factura factura= new Factura();
+
     @GetMapping("/crear/{id}")
     public String crearFactura(@PathVariable Long id, Model model, HttpServletRequest request,@RequestParam(defaultValue = "0")int page){
         Usuario usuario = obtenerUsuarioDesdeSesion(request);
@@ -49,21 +51,36 @@ public class FacturaController {
         model.addAttribute("productosPage",productosPage);
         model.addAttribute("usuario", usuario);
         model.addAttribute("listaItems",listaItemsFactura);
-        model.addAttribute("facturaText",factura);
+
         return "crearFactura";
     }
 
     @PostMapping("/agregarProducto/{id}")
     public String agregarProducto(@RequestParam Long productoId, @RequestParam int cantidad, @PathVariable Long id) {
+        if (cantidad == 0) {
+            return "redirect:/facturas/crear/" + id;
+        }
+
         Productos producto = productoService.obtenerProductoPorId(productoId);
 
-        // Crear un nuevo objeto ItemFactura con la información del producto y la cantidad
-        ItemFactura nuevoItemFactura = new ItemFactura();
-        nuevoItemFactura.setProductos(producto);
-        nuevoItemFactura.setCantidad(cantidad);
+        // Verificar si el producto ya existe en la lista
+        Optional<ItemFactura> itemExistente = listaItemsFactura.stream()
+                .filter(item -> item.getProductos().getId().equals(productoId))
+                .findFirst();
 
-        // Agregar el nuevo ItemFactura a la lista
-        listaItemsFactura.add(nuevoItemFactura);
+        if (itemExistente.isPresent()) {
+            // Si el producto ya existe, actualizar la cantidad
+            ItemFactura itemExistenteActualizado = itemExistente.get();
+            itemExistenteActualizado.setCantidad(itemExistenteActualizado.getCantidad() + cantidad);
+        } else {
+            // Si el producto no existe, crear un nuevo objeto ItemFactura
+            ItemFactura nuevoItemFactura = new ItemFactura();
+            nuevoItemFactura.setProductos(producto);
+            nuevoItemFactura.setCantidad(cantidad);
+
+            // Agregar el nuevo ItemFactura a la lista
+            listaItemsFactura.add(nuevoItemFactura);
+        }
 
         // Redirigir de nuevo a la página de creación de factura
         return "redirect:/facturas/crear/" + id;
@@ -79,4 +96,32 @@ public class FacturaController {
         HttpSession session = request.getSession();
         return (Usuario) session.getAttribute("usuario");
     }
+
+    @PostMapping("/guardar/{id}")
+    public String guardarFactura(@PathVariable Long id,@RequestParam String descripcion, @RequestParam String observacion){
+        if(listaItemsFactura.isEmpty()){
+            return "redirect:/facturas/crear/"+id;
+        }
+        Factura factura= new Factura();
+        factura.setDescripcion(descripcion);
+        factura.setObservacion(observacion);
+        factura.setCreateAt(new Date());
+
+        Contacto contacto=contactoService.obtenerContactoPorId(id);
+        factura.setContacto(contacto);
+
+        for(ItemFactura itemFactura:listaItemsFactura){
+            factura.addItemFactura(itemFactura);
+        }
+        facturaService.saveFactura(factura);
+        listaItemsFactura.clear();
+        return "redirect:/contactos";
+    }
+
+    @PostMapping("/borrarFactura/{id}")
+    public String borrarFactura(@PathVariable Long id,@RequestParam Long contactoId){
+        facturaService.deleteFacturaById(id);
+        return "redirect:/verContacto/"+contactoId;
+    }
+
 }

@@ -110,4 +110,5 @@ public class Contacto {
     public Contacto() {
         facturas=new ArrayList<Factura>();
     }
+
 }

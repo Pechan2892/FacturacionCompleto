@@ -49,6 +49,7 @@
            padding: 0.75rem;
            text-align: left;
            border-bottom: 1px solid #dee2e6;
+           background: #f2f2f2;
        }
 
        th {
@@ -91,25 +92,16 @@
             </ul>
         </div>
         <a th:href="@{/logoutUser}" class="custom-link">Cerrar sesion</a>
-        <span th:text="${usuario.email}"></span>
+        <img th:if="${usuario.imagen}" th:src="@{'/imagen/' + ${usuario.id}}" alt="Imagen del Usuario" class="usuario-imagen" style="width: 2rem; height: 2rem;" />
     </div>
 </nav>
 
-<div class="card">
+<div class="card" style="text-align: center">
     <div class="card-body">
         <h5 class="card-title">Datos del Contacto</h5>
         <p class="card-text">Nombre: <span th:text="${contacto.nombre}"></span></p>
         <p class="card-text">Celular: <span th:text="${contacto.celular}"></span></p>
-        <form>
-            <div class="form-group">
-                <label for="observacion">Observación:</label>
-                <input type="text" class="form-control" id="observacion" name="observacion">
-            </div>
-            <div class="form-group">
-                <label for="descripcion">Descripción:</label>
-                <input type="text" class="form-control" id="descripcion" name="descripcion">
-            </div>
-        </form>
+
     </div>
 </div>
 
@@ -186,9 +178,27 @@
             </tbody>
         </table>
     </div>
-    <form th:action="@{/facturas/cancelar}" method="post">
-        <button class="btn btn-warning" type="submit">Cancelar</button>
-    </form>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Datos de la Factura</h5>
+            <form th:action="@{'/facturas/guardar/' + ${contacto.id}}" method="post">
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                </div>
+                <div class="form-group">
+                    <label for="observacion">Observación:</label>
+                    <textarea class="form-control" id="observacion" name="observacion" rows="3"></textarea>
+                </div>
+                <button class="btn btn-success w-25 " type="submit">Guardar</button>
+            </form>
+            <form th:action="@{/facturas/cancelar}" method="post">
+                <button class="btn btn-warning mt-3 w-25" type="submit">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+
 </div>
 
 <!-- Agregar los scripts de Bootstrap y jQuery al final del archivo -->

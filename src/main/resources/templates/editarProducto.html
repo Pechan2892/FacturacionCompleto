@@ -1,24 +1,98 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Editar Producto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Croissant+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #214e7b; /* Dark blue */
+            background-image: radial-gradient(ellipse at center, #214e7b 0%, #0b233f 100%);
+            color: #fff;
+            font-family: 'Croissant One', sans-serif; /* Changed font to Croissant One */
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffeecc; /* Light yellow */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .producto-imagen {
+            max-width: 200px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #8c6d62; /* Brownish */
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #5e493f; /* Darker brown */
+        }
+
+        a {
+            color: #ffeecc; /* Light yellow */
+            text-decoration: none;
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        a:hover {
+            color: #ffd699; /* Light orange */
+        }
+    </style>
 </head>
+
 <body>
 
 <h1>Editar Producto</h1>
 
-<form th:object="${producto}" th:action="@{/productos/editar/{id}(id=${producto.id})}" method="post" enctype="multipart/form-data">
+<form th:object="${producto}" th:action="@{/productos/editar/{id}(id=${producto.id})}" method="post"
+      enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}" />
-    <label>Nombre: <input type="text" th:field="*{nombre}" /></label><br/>
-    <label>Precio: <input type="text" th:field="*{precio}" /></label><br/>
-    <img th:if="${producto.imagen}" th:src="@{'/productos/imagen/' + ${producto.id}}" alt="Imagen del Producto" class="producto-imagen" />
-    <label>Imagen: <input type="file" name="imagenFile" /></label><br/> <!-- Campo para cargar la imagen -->
-    <input type="submit" value="Guardar"/>
+    <label>Nombre: <input type="text" th:field="*{nombre}" /></label><br />
+    <label>Precio: <input type="text" th:field="*{precio}" /></label><br />
+    <img th:if="${producto.imagen}" th:src="@{'/productos/imagen/' + ${producto.id}}"
+         alt="Imagen del Producto" class="producto-imagen" />
+    <label>Imagen: <input type="file" name="imagenFile" /></label><br />
+    <!-- Campo para cargar la imagen -->
+    <input type="submit" value="Guardar" />
 </form>
 
 <a th:href="@{/productos/listar}">Volver al listado</a>
 
 </body>
-</html>
 
+</html>

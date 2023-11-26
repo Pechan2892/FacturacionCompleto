@@ -88,7 +88,7 @@
             </ul>
         </div>
         <a th:href="@{/logoutUser}" class="custom-link">Cerrar sesion</a>
-        <span th:text="${usuario.email}"></span>
+        <img th:if="${usuario.imagen}" th:src="@{'/imagen/' + ${usuario.id}}" alt="Imagen del Usuario" class="usuario-imagen" style="width: 2rem; height: 2rem;" />
     </div>
 </nav>
 

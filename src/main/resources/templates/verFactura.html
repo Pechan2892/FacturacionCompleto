@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Factura de Cafetería</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg, #fab2ff 10%, #1904e5 100%);
+            background-attachment: fixed;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* Fondo blanco para la tarjeta */
+            max-width: 800px; /* Ajusté el ancho máximo */
+            margin: auto; /* Centrar la tarjeta en la página */
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .form-readonly {
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px; /* Ajusté el margen superior */
+        }
+
+        th, td {
+            padding: 15px; /* Ajusté el padding */
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="card-body">
+        <h2 class="text-center mb-4">Detalles de la Factura</h2>
+        <div class="form-readonly">
+            <div class="mb-2"><strong>ID Factura:</strong> <span th:text="${factura.id}"></span></div>
+            <div class="mb-2"><strong>Fecha de Emisión:</strong> <span th:text="${#dates.format(factura.createAt, 'dd/MM/yyyy')}"></span></div>
+            <div class="mb-2"><strong>Total:</strong> $<span th:text="${factura.total}"></span></div>
+            <div class="mb-2"><strong>Descripción:</strong> <span th:text="${factura.descripcion}"></span></div>
+            <div><strong>Observación:</strong> <span th:text="${factura.observacion}"></span></div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-body">
+        <h2 class="text-center mb-4">Ítems de la Factura</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <!-- Otros encabezados según tus atributos en ItemFactura -->
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iterar sobre la lista de ítems de factura -->
+            <tr th:each="item : ${factura.items}">
+                <td th:text="${item.productos.nombre}"></td>
+                <td th:text="${item.cantidad}"></td>
+                <!-- Otros campos según tus atributos en ItemFactura -->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Otros elementos de la vista según tus necesidades -->
+
+</body>
+</html>
+
